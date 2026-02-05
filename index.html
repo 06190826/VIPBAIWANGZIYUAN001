@@ -2061,11 +2061,8 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 /* 禁用图片长按保存 */
 .locked-image-container img {
-    -webkit-touch-callout: none; /* 禁用 iOS 长按菜单 */
+      -webkit-touch-callout: none; /* 禁用 iOS 长按菜单 */
     -webkit-user-select: none;   /* 禁用文本选择 */
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
 }
 /* 鼠标悬停时取消模糊（可选） */
@@ -4751,10 +4748,10 @@ Dear Admin:The content on this page consists of cosplay photography as artistic 
 		});
 		</script>
 		<script>
-// 禁用长按保存（适用于 Android 和 iOS）
+// 禁用长按保存（移动端）
 document.addEventListener('touchstart', function(e) {
     if (e.target.closest('.locked-image-container img')) {
-        e.preventDefault(); // 阻止默认长按行为
+        e.preventDefault(); // 阻止长按行为
     }
 }, { passive: false });
 			document.addEventListener("DOMContentLoaded", function () {
