@@ -2,7 +2,7 @@
 
 <html>
 	<head>
-		  <meta property="og:title" content="仅展示部分图源，完整资源进群领取">
+		  <meta property="og:title" content="仅展示部分图源，完整资源进群领取，未成年禁入哦">
 		  <meta property="og:image" content="https://image.acg.lol/file/2026/02/01/X-level-vol.060-YehaSuji-011.jpg">
 		  <meta property="og:description" content="独乐乐不如众乐乐！">
 
@@ -427,15 +427,32 @@
 				}
 			});
 			
-			// 为所有图片添加点击事件
-			document.addEventListener('DOMContentLoaded', function() {
-				const images = document.querySelectorAll('.img-container img');
-				images.forEach(img => {
-					img.addEventListener('click', function() {
-						openImageModal(this.src);
-					});
-				});
-			});
+// 为模糊图片添加点击事件
+document.addEventListener('DOMContentLoaded', function() {
+    const images = document.querySelectorAll('.img-container img');
+    images.forEach(img => {
+        // 排除 .locked-image-container 中的图片
+        if (img.closest('.locked-image-container')) {
+            img.addEventListener('click', function(event) {
+                event.preventDefault(); // 阻止默认行为（如跳转）
+
+                // 显示提示文字
+                const tip = document.getElementById('blurTip');
+                tip.style.display = 'block';
+
+                // 几秒后自动隐藏提示文字
+                setTimeout(() => {
+                    tip.style.display = 'none';
+                }, 2000); // 2 秒后隐藏
+            });
+        } else {
+            // 为普通图片绑定弹窗事件
+            img.addEventListener('click', function() {
+                openImageModal(this.src);
+            });
+        }
+    });
+});
 		</script>
 		
 		<style data-url="//qzonestyle.gtimg.cn/qz-proj/wy-h5/g-reset.css">
@@ -2024,6 +2041,105 @@
 			@keyframes bounce {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(5px); }
+}
+
+.locked-image-container {
+  position: relative;
+  display: block; /* 改为 block 以避免 inline-block 导致的对齐问题 */
+  text-align: center; /* 确保内容居中 */
+  margin: 20px auto;
+  max-width: 800px;
+}
+
+.locked-image-container img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  filter:  blur(5px) brightness(1.8) contrast(1.6);/* 默认模糊效果 */
+  transition: filter 0.3s ease;
+}
+/* 禁用图片长按保存 */
+.locked-image-container img {
+    -webkit-touch-callout: none; /* 禁用 iOS 长按菜单 */
+    -webkit-user-select: none;   /* 禁用文本选择 */
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+/* 鼠标悬停时取消模糊（可选） */
+/* .locked-image-container:hover img {
+  filter: blur(0);
+} */
+
+.lock-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 48px;
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  pointer-events: none; /* 确保锁图标不影响点击 */
+}
+.locked-image-container {
+    position: relative;
+    display: block;
+    text-align: center;
+    margin: 20px auto;
+    max-width: 800px;
+}
+
+.locked-image-container img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    filter: blur(5px);
+    transition: filter 0.3s ease;
+    cursor: not-allowed;
+}
+.lock-overlay {
+    position: absolute;
+    top: 50%;
+  left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 10;
+    opacity: 0.9;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5)); /* 发光效果 */
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* 锁图标 SVG 样式 */
+.lock-overlay svg {
+    width: 64px;
+    height: 64px;
+    fill: white; /* 白色填充 */
+    stroke: #000; /* 黑色描边 */
+    stroke-width: 1px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3)); /* 投影效果 */
+}
+.blur-tip {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 20px 40px;
+    border-radius: 10px;
+    font-size: 18px;
+    text-align: center;
+    z-index: 9999;
+    display: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.blur-tip p {
+    margin: 0;
+    font-weight: bold;
 }
 
 			/* kaka:200520162950,ZHO */
@@ -4301,7 +4417,7 @@
 			<div id="noteContainer">
 				<section class="wy-notes-wrapper">
 					<header class="note-title-wrapper premium-notice-bar">
-						<h2 class="note-title">仅展示部分图源，完整资源进群领取</h2>
+						<h2 class="note-title">仅展示部分图源，完整资源进群领取，未成年禁入哦</h2>
 						<time class="notice-date">2026-02-03 18:30:52	图片/视频加载不出刷新</time>
 					</header>
 					<article class="note-body">
@@ -4424,31 +4540,79 @@
 Dear Admin:The content on this page consists of cosplay photography as artistic works and does not contain pornographic or adult material. All models featured are adults, and we firmly oppose and reject any form of pedophilia.<br/>
 【摄影艺术作品鉴赏交流，无不良引导😊】
 <div class="small-title"><span >柒柒不可爱（柒柒要乖哦） - 阿努比斯 #嘿私 #足控 [168P]󠅨󠅧󠄜󠅟󠅛󠅓󠅨󠅟󠅣󠅒󠅨󠅛󠅟󠅣󠅒󠇟󠆬󠆊󠄮󠄠󠄥󠄪󠄤󠄠󠄥󠄠󠄫󠄦󠄡󠄯󠄡󠄨󠄦󠄦󠄬󠄥󠄩󠄭󠄫󠄧󠄦󠄡󠄡󠄭󠄫󠄩󠄩󠄣󠄬󠄥󠄫󠄣󠄤󠄫󠄠󠄡󠄮󠄡󠄥󠄩󠄯󠄧󠄧󠄡󠄩󠄣󠄮󠄢󠄮󠄮󠄣󠄧󠄣󠄦󠄯󠄪󠄣󠄧󠄧󠄨󠄡󠄦󠄨󠄫󠄦󠄫󠄮󠄮󠄥󠄢󠄨󠄩󠄧󠄦󠄮󠄨󠄥󠄣󠄠󠄡󠄨󠄠󠄦󠄢󠄪󠄤󠄪󠄭󠄭󠄦󠄧󠄭󠄦󠄨󠄥󠄪󠄧󠄡󠄭󠄬󠄧󠄥󠄦󠄢󠄪󠄮󠄭󠄨󠄧󠄡󠄪󠄮󠄢󠄧󠄤󠄡󠄨󠄡󠄯󠄫󠄩󠄯󠄤󠄯󠄧󠄮</span><span >在线预览仅展示部分内容，进群领取完整图源</span></div>
-<div class="img-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/03/IMG_20260203_091025_470.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"></div>
-<div class="img-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/04/IMG_20260203_091000_356.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"></div>
-<div class="img-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/04/IMG_20260203_091029_108.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"></div>
-<div class="img-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/04/IMG_20260203_091025_481.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"></div>
+<div class="img-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/06/IMG_20260203_091024_920.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"></div>
+<div class="img-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/06/IMG_20260203_091025_473.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"></div>
 <div class="img-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/04/IMG_20260203_091028_356.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"></div>
+<div class="img-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/04/IMG_20260203_091025_481.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"></div>
+<div class="img-container locked-image-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/03/IMG_20260203_091025_470.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"><div class="lock-overlay">
+    <!-- 使用 SVG 锁图标 -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="64" height="64" fill="white">
+        <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+    </svg>
+</div></div>
+<div class="img-container locked-image-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/04/IMG_20260203_091029_108.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"><div class="lock-overlay">
+    <!-- 使用 SVG 锁图标 -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="64" height="64" fill="white">
+        <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+    </svg>
+</div></div>
+<div class="img-container locked-image-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/06/retouch_2026020602480978.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"><div class="lock-overlay">
+    <!-- 使用 SVG 锁图标 -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="64" height="64" fill="white">
+        <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+    </svg>
+</div></div>
 <div class="small-title"><span >軟妹搖搖樂 [Fantia] - 2024年2月订阅（3月18打赏群资源）[60p]#眼睛反差婊</span><span >在线预览仅展示部分内容，进群领取完整图源</span></div>
-<div class="img-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/04/IMG_20260130_200924_880.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"></div>
 <div class="img-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/04/IMG_20260130_200925_259.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"></div>
 <div class="img-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/04/IMG_20260130_200928_413c3797faf3522d26d.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"></div>
 <div class="img-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/04/IMG_20260130_200933_106.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"></div>
-<div class="img-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/04/IMG_20260130_201030_660.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"></div>
+<div class="img-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/04/IMG_20260130_200924_880.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"></div>
+
+<div class="img-container locked-image-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/04/IMG_20260130_201030_660.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"><div class="lock-overlay">
+    <!-- 使用 SVG 锁图标 -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="64" height="64" fill="white">
+        <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+    </svg>
+</div></div>
 <div class="small-title"><span >Bangni邦尼  [74P] #穹妹 #酮体 #巨乳 #足控.</span><span >在线预览仅展示部分内容，进群领取完整图源</span></div>
 <div class="img-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/04/IMG_20260204_234427_158.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"></div>
-<div class="img-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/04/IMG_20260204_234431_181.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"></div>
 <div class="img-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/04/IMG_20260204_234508_142.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"></div>
 <div class="img-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/04/IMG_20260204_234546_439.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"></div>
 <div class="img-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/04/IMG_20260204_234531_139.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"></div>
+<div class="img-container locked-image-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/06/IMG_20260204_234436_771.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"><div class="lock-overlay">
+    <!-- 使用 SVG 锁图标 -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="64" height="64" fill="white">
+        <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+    </svg>
+</div></div>
+<div class="img-container locked-image-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/06/IMG_20260204_234435_038.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"><div class="lock-overlay">
+    <!-- 使用 SVG 锁图标 -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="64" height="64" fill="white">
+        <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+    </svg>
+</div></div>
 <div class="small-title"><span >Bangni邦尼 男友衬衫 [100P] #cos #酮体 #巨乳 #足控.</span><span >在线预览仅展示部分内容，进群领取完整图源</span></div>
 <div class="img-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/05/IMG_20260205_001232_233.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"></div>
 <div class="img-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/05/IMG_20260205_001357_562.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"></div>
 <div class="img-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/05/IMG_20260205_001437_949.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"></div>
 <div class="img-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/05/IMG_20260205_001316_334.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"></div>
-<div class="img-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/05/IMG_20260205_001339_092.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"></div>
 <div class="img-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/05/IMG_20260205_001448_423.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"></div>
-
+<div class="img-container locked-image-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/06/IMG_20260206_014326_197.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"><div class="lock-overlay">
+    <!-- 使用 SVG 锁图标 -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="64" height="64" fill="white">
+        <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+    </svg>
+</div></div>
+<div class="img-container locked-image-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/06/IMG_20260206_014710_388.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"><div class="lock-overlay">
+    <!-- 使用 SVG 锁图标 -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="64" height="64" fill="white">
+        <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+    </svg>
+</div></div>
+<!-- 提示文字容器 -->
+<div id="blurTip" class="blur-tip">
+    <p>进群领取完整图源</p>
+</div>
 <!-- <div class="small-title"><span >#桜井宁宁 2025年12月会员订阅 [74P,4V-737MB]标签:#自撮 #巨乳 #白虎</span><span >在线预览仅展示部分内容，进群领取完整图源</span></div>
 <div class="img-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/04/IMG_20260204_004839_176.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"></div>
 <div class="img-container"><span>图片加载中...请稍候</span><img src="https://image.acg.lol/file/2026/02/04/IMG_20260204_004836_075.jpg" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.previousElementSibling.innerText='❌ 这张图片挂了哦,（如所有图片都出现此提醒则大概率是自身网络原因）';"></div>
@@ -4555,7 +4719,7 @@ Dear Admin:The content on this page consists of cosplay photography as artistic 
                                                         <button class="btn btn-hero btn-lg" 
                                                                                 role="button" 
                                                                      onclick="openImageModal('https://img10.360buyimg.com/ddimg/jfs/t1/395153/24/1400/73322/6981c3e4Fe2995265/001543843859be36.jpg')">
-                                                                     👉 点击加群每天上车 👈
+                                                                     👉 点击加群每天更新 👈
                                                             </button>
                                                         <br>
 												<!-- 加群浮窗 -->
@@ -4663,5 +4827,3 @@ Dear Admin:The content on this page consists of cosplay photography as artistic 
 		</div>
 	</body>
 </html>
-
-
